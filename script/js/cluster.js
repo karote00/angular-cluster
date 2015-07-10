@@ -2,7 +2,7 @@ var app = angular.module('app', []);
 
 app.controller('clusterCtrl', ['$scope', function($scope) {
 	$scope.metaData = [];
-	var dataLength = 1500000;
+	var dataLength = 50000;
 	for(var i = 0; i < dataLength; i++) {
 		$scope.metaData.push(i + 1);
 	}
@@ -25,19 +25,21 @@ app.directive('cluster', [function() {
 			scope.dt = -1;
 			var data = scope.metaData;
 			var t = 0;
-			var count = data.length / 10;
+			var diff = data.length / 10;
 			var ratio = Math.pow(3 / 4, 2);
-			if(count < 50) count = 50;
-			else if(count > 100) count = 100;
+			if(diff < 50) diff = 50;
+			else if(diff > 100) diff = 100;
+			var count = Math.round(diff * ratio);
+
 			scope.scrollHeight = 20 * data.length;
-			var max = Math.ceil(data.length / Math.round(count * ratio));
-			var changePos = Math.round(count * ratio) * 20;
+			var max = Math.round(data.length / count);
+			var changePos = count * 20;
 
 			scope.$watch('dt', function(v) {
 				scope.data = [];
 				t = 0;
-				for(var i = v * Math.round(count * ratio); i < data.length; i++) {
-					if(t == count) {
+				for(var i = v * count; i < data.length; i++) {
+					if(t == diff) {
 						t = 0;
 						break;
 					}
@@ -54,25 +56,24 @@ app.directive('cluster', [function() {
 			scope.ctrl.init();
 
 			scope.ctrl.next = function(n) {
-				if(scope.dt > max || n > max) scope.dt = max;
+				if(scope.dt >= max || n >= max) scope.dt = max - 1;
 				else scope.dt = n || ++scope.dt;
-				scope.expandHeight = scope.dt * Math.round(count * ratio) * 20;
+				scope.expandHeight = scope.dt * count * 20;
 			};
 
 			scope.ctrl.prev = function(n) {
 				if(scope.dt < 0 || n < 0) scope.dt = 0;
 				else scope.dt = n || --scope.dt;
-				scope.expandHeight = scope.dt * Math.round(count * ratio) * 20;
+				scope.expandHeight = scope.dt * count * 20;
 			};
 
 			elem.scroll(function() {
 				var eCurPos = elem.scrollTop();
-
 				var to = eCurPos - (scope.dt + 1) * changePos;
 
-				if(to > 0) {
+				if(to >= 0) {
 					if(to > changePos) {
-						var cur = Math.round(eCurPos / changePos);
+						var cur = Math.round(eCurPos / changePos) - 1;
 						scope.ctrl.next(cur);
 						scope.$apply();
 					} else {
