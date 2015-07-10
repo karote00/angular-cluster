@@ -1,0 +1,10 @@
+<div class="scollContainer">
+	<div ng-style="{height: scrollHeight + 'px'}">
+		<div ng-style="{height: expandHeight + 'px'}"></div>
+		<div ng-repeat="d in data" class="row" ng-cloak>
+			<div class="progress-bar" ng-style="{width: d * 100 / metaData.length + '%'}" ng-cloak></div>
+			<div class="name" ng-cloak>{{d}}</div>
+			<div class="percent" ng-cloak>{{d * 100 / metaData.length | number: 2}}%</div>
+		</div>
+	</div>
+</div>

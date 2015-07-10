@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html ng-app="app">
+<head>
+	<link rel="stylesheet" type="text/css" href="css/cluster.css">
+	<link rel="stylesheet" type="text/css" href="css/angular-csp.css">
+	<script type="text/javascript" src="script/plugin/jquery-2.1.4.min.js"></script>
+	<script type="text/javascript" src="script/plugin/angular.min.js"></script>
+	<script type="text/javascript" src="script/js/cluster.js"></script>
+</head>
+<body>
+	<div ng-controller="clusterCtrl">
+		<div class="listContainer">
+			<div class="title">
+				<div class="name">Name</div>
+				<div class="percent">Percent</div>
+			</div>
+			<div meta-data="metaData" control="nextControl" cluster></div>
+		</div>
+	</div>
+</body>
+</html>
