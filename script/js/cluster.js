@@ -2,7 +2,7 @@ var app = angular.module('app', []);
 
 app.controller('clusterCtrl', ['$scope', function($scope) {
 	$scope.metaData = [];
-	var dataLength = 50000;
+	var dataLength = 1500000;
 	for(var i = 0; i < dataLength; i++) {
 		$scope.metaData.push(i + 1);
 	}
@@ -63,7 +63,7 @@ app.directive('cluster', [function() {
 				if(scope.dt < 0 || n < 0) scope.dt = 0;
 				else scope.dt = n || --scope.dt;
 				scope.expandHeight = scope.dt * Math.round(count * ratio) * 20;
-			}
+			};
 
 			elem.scroll(function() {
 				var eCurPos = elem.scrollTop();
@@ -94,5 +94,5 @@ app.directive('cluster', [function() {
 			});
 		},
 		templateUrl: 'template/column.html'
-	}
+	};
 }]);
